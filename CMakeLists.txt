@@ -7,6 +7,8 @@ project (PBRT-V4 LANGUAGES CXX C)
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_CUDA_ARCHITECTURES 89)
+
 if (NOT DEFINED PBRT_SOURCE_CODE)
   set (PBRT_SOURCE_CODE ${CMAKE_SOURCE_DIR})
 endif ()
@@ -23,6 +25,14 @@ option (PBRT_NVTX "Insert NVTX annotations for NVIDIA Profiling and Debugging To
 option (PBRT_NVML "Use NVML for GPU performance measurement" OFF)
 option (PBRT_USE_PREGENERATED_RGB_TO_SPECTRUM_TABLES "Use pregenerated rgbspectrum_*.cpp files rather than running rgb2spec_opt to generate them at build time" OFF)
 set (PBRT_OPTIX7_PATH $ENV{PBRT_OPTIX7_PATH} CACHE PATH "Path to OptiX 7 SDK")
+
+# Just hardcode path to optix7 on my home computer...
+if ("${PBRT_OPTIX7_PATH}" STREQUAL "")
+    if(EXISTS "C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.4.0")
+        set(PBRT_OPTIX7_PATH "C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.4.0" CACHE PATH "Path to OptiX 7 SDK" FORCE)
+    endif()
+endif()
+
 set (PBRT_GPU_SHADER_MODEL "" CACHE STRING "")
 
 
